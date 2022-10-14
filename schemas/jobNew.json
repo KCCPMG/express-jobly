@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://our.job.com/jobNew.schema.json",
+  "type": "object",
+  "required": [
+      "title",
+      "companyHandle"
+  ],
+  "properties": {
+      "title": {
+          "type": "string",
+          "default": "",
+          "title": "The title Schema",
+          "examples": [
+              "Engineer, chemical"
+          ]
+      },
+      "salary": {
+          "type": "integer",
+          "default": 0,
+          "title": "The salary Schema",
+          "examples": [
+              81000
+          ],
+          "minimum": 0
+      },
+      "equity": {
+          "type": "float",
+          "default": 0,
+          "title": "The equity Schema",
+          "examples": [
+              0
+          ],
+          "maximum": 1.0
+      },
+      "companyHandle": {
+          "type": "string",
+          "default": "",
+          "title": "The companyHandle Schema",
+          "examples": [
+              "russo-gillespie-conrad"
+          ],
+          "minLength": 1
+      }
+  },
+  "examples": [{
+      "title": "Engineer, chemical",
+      "salary": 81000,
+      "equity": 0,
+      "companyHandle": "russo-gillespie-conrad"
+  }],
+  "additionalProperties": false
+}

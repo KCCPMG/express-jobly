@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://our.job.com/jobUpdate.schema.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "default": "",
+      "title": "The title Schema",
+      "examples": [
+        "Engineer, chemical"
+      ]
+    },
+    "salary": {
+      "type": "integer",
+      "default": 0,
+      "title": "The salary Schema",
+      "examples": [
+        81000
+      ],
+      "minimum": 0
+    },
+    "equity": {
+      "type": "float",
+      "default": 0,
+      "title": "The equity Schema",
+      "examples": [
+        0
+      ],
+      "maximum": 1.0
+    }
+  },
+  "additionalProperties": false,
+  "required": [],
+  "examples": [{
+    "title": "Engineer, chemical",
+    "salary": 81000,
+    "equity": 0
+  }]
+}
