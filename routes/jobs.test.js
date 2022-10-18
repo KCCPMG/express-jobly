@@ -1,7 +1,6 @@
 "use strict";
 
 const request = require("supertest");
-const { createToken } = require('../helpers/tokens')
 
 const db = require("../db");
 const app = require("../app");
@@ -12,36 +11,15 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
+  adminUserToken,
+  sampleJobs
 } = require("./_testCommon");
 
-const User = require("../models/user");
-const Job = require("../models/job");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
-
-// unique to companies and jobs tests
-beforeAll(async function() {
-  await User.register({
-    username: "u4",
-    firstName: "U4F",
-    lastName: "U4L",
-    email: "user4@user.com",
-    password: "password4",
-    isAdmin: true,
-  })
-})
-
-const sampleJobs = [];
-
-beforeAll(async function() {
-  const jobs = await Job.findAll();
-  jobs.forEach(job => { sampleJobs.push(job) })
-})
-
-const adminUserToken = createToken({ username: "u4", isAdmin: true });
 
 /************************************** POST /jobs */
 
@@ -273,7 +251,7 @@ describe("PATCH /jobs/:id", function () {
 
 describe("DELETE /jobs/:id", function () {
 
-  const adminUserToken = createToken({ username: "u4", isAdmin: true });
+  // const adminUserToken = createToken({ username: "u4", isAdmin: true });
 
   // assigning adminUserToken to correctly test
   test("works for admin users", async function () {

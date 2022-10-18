@@ -9,6 +9,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  sampleJobs
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -16,12 +17,6 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-const sampleJobs = [];
-
-beforeAll(async function(){
-  const jobs = await Job.findAll();
-  jobs.forEach(job => { sampleJobs.push(job) })
-})
 
 /************************************** create */
 

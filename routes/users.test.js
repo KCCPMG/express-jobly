@@ -5,8 +5,6 @@ const request = require("supertest");
 const db = require("../db.js");
 const app = require("../app");
 const User = require("../models/user");
-const Job = require("../models/job");
-const {createToken} = require("../helpers/tokens");
 
 const {
   commonBeforeAll,
@@ -14,6 +12,8 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
+  sampleJobs,
+  adminUserToken
 } = require("./_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -21,14 +21,6 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-const sampleJobs = [];
-
-beforeAll(async function() {
-  const jobs = await Job.findAll();
-  jobs.forEach(job => { sampleJobs.push(job) })
-})
-
-const userAdminToken = createToken({ username: "u4", isAdmin: true });
 
 
 /************************************** POST /users */
@@ -129,6 +121,7 @@ describe("GET /users", function () {
     const resp = await request(app)
         .get("/users")
         .set("authorization", `Bearer ${u1Token}`);
+    // adding u4 to expected results
     expect(resp.body).toEqual({
       users: [
         {
@@ -152,6 +145,12 @@ describe("GET /users", function () {
           email: "user3@user.com",
           isAdmin: false,
         },
+          {username: "u4",
+          firstName: "U4F",
+          lastName: "U4L",
+          email: "user4@user.com",
+          isAdmin: true
+        }
       ],
     });
   });
@@ -324,7 +323,7 @@ describe("POST /users/:username/jobs/:jobId", function(){
   test("successful application with admin for other user", async function() {
     const resp = await request(app)
       .post(`/users/u1/jobs/${sampleJobs[0].id}`)
-      .set("authorization", `Bearer ${userAdminToken}`)
+      .set("authorization", `Bearer ${adminUserToken}`)
 
     expect(resp.statusCode).toBe(200);
     expect(resp.body).toEqual({
@@ -359,7 +358,7 @@ describe("POST /users/:username/jobs/:jobId", function(){
   test("NotFoundError on bad user", async function() {
     const resp = await request(app)
       .post(`/users/baduser/jobs/${sampleJobs[0].id}`)
-      .set("authorization", `Bearer ${userAdminToken}`)
+      .set("authorization", `Bearer ${adminUserToken}`)
     
     expect(resp.statusCode).toBe(404);
   })
